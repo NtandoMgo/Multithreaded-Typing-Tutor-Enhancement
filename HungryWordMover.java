@@ -1,6 +1,5 @@
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.awt.*;
 
 public class HungryWordMover extends Thread{
     private HungryWord myHWord;
@@ -13,13 +12,11 @@ public class HungryWordMover extends Thread{
     FallingWord[] words;
     int noWords;
 
-    Font wordFont;
+    ThreadLocalRandom random = ThreadLocalRandom.current();
 
     // Constructor
     HungryWordMover (HungryWord word) {myHWord = word;}
 
-    // 
-    
     HungryWordMover(HungryWord word, WordDictionary dict, Score score,
     CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p) {
         this(word);
@@ -34,16 +31,23 @@ public class HungryWordMover extends Thread{
 	}
 
 	// Hungry words settor
-	public void setHWords(HungryWord Words) {
+	/*public void setHWords(HungryWord Words) {
 		hunWords = Words;
-	}
+	}*/
+
+    // Random sleep method
+    public void threadSleep(){
+        int MillisecondsToSleep = random.nextInt(1500, 4000);
+        try {
+
+            sleep(MillisecondsToSleep); // thread sleeps before next word pops up
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void run(){
-        wordFont = new Font("Arial",Font.BOLD, 26);
-		Canvas screen = new Canvas();
-		FontMetrics fMetrics = screen.getFontMetrics(wordFont);
-		FontMetrics fMetrics2 = Toolkit.getDefaultToolkit().getFontMetrics(wordFont);
-
         try {
             System.out.println(myHWord.getWord() + " waiting to move");
             startLatch.await();
@@ -62,20 +66,10 @@ public class HungryWordMover extends Thread{
                     e.printStackTrace();
                 }
                 while(pause.get()&&!done.get()) {};
-                
-               /* for (int i = 0; i < words.length; i++) {
-                    int xStart = myHWord.getX(), xEnd = xStart + fMetrics2.stringWidth(myHWord.getWord());      // left-up corner and right-up coner (x-vals) of hungry word
-                    int yStart = myHWord.getY(), yEnd = yStart + fMetrics.getHeight();  // (y-vals) for hungry word
-
-                    int xInit = words[i].getX(), xFinal = xInit + fMetrics2.stringWidth(words[i].getWord());     // left-up corner and right-up coner (x-vals) of falling word
-                    int yInit = words[i].getX(), yFinal = yInit + fMetrics.getHeight();     // (y-vals) for falling word
-
-                    if (xInit>=xStart && xInit<=xEnd){System.out.println("crushed condition 1");}
-                }
-                */
             }
             if (!done.get() && myHWord.slided()) {
 				score.missedWord();
+                threadSleep();      // sleep before new words comes
 				myHWord.resetWord();
 			}
 			myHWord.resetWord();

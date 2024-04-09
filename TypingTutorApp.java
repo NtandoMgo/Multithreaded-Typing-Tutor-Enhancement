@@ -22,7 +22,8 @@ public class TypingTutorApp {
    	static int frameX=1000;
 	static int frameY=600;
 	static int yLimit=480; 
-	static int xLimit = 900;
+	static int xLimit = 1100;
+	static int stationeryY;
 
 	static WordDictionary dict = new WordDictionary(); //use default dictionary, to read from file eventually
 
@@ -193,6 +194,7 @@ public class TypingTutorApp {
 		for (int i=0;i<noWords;i++) {
 			words[i]=new FallingWord(dict.getNewWord(),gameWindow.getValidXpos(),yLimit);
 		}
+		gameWindow.getValidYPos();
 		//hWord = new HungryWord(dict.getNewWord(), gameWindow.getValidYPos(), xLimit);
 		
 		//create threads to move them
@@ -250,7 +252,7 @@ public static void main(String[] args) {
 		}
 				
 		FallingWord.dict=dict; //set the class dictionary for the words.
-		HungryWord.dict = dict;
+		HungryWord.dict = dict;	//set the class dictionary for the hungry words.
 		
 		words = new FallingWord[noWords];  //array for the  current chosen words from dict
 		wrdShft = new WordMover[noWords]; //array for the threads that animate the words
@@ -259,9 +261,9 @@ public static void main(String[] args) {
 		CatchWord.setScore(score);  //class setter - static method
 		CatchWord.setFlags(done,pause); //class setter - static method
 
-		hWord = new HungryWord(dict.getNewWord(),400, xLimit);
+		hWord = new HungryWord(dict.getNewWord(),frameY/2, xLimit);
 		CatchWord.setHWord(hWord);
-		//gameWindow.mySetScore(score);
+		
 		setupGUI(frameX, frameY, yLimit);  
 	
  		startLatch = new CountDownLatch(1); //REMOVE so threads can start at once

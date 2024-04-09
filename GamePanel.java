@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.util.concurrent.CountDownLatch;
+//import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JPanel;
@@ -16,8 +16,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 		private FallingWord[] words; private HungryWord hWord;
 		private int noWords;
-		private static Score score; 
-
 		Rectangle rH, rF;
 		private final static int borderWidth=25; //appearance - border
 
@@ -58,23 +56,20 @@ public class GamePanel extends JPanel implements Runnable {
 				for (int i=0;i<noWords;i++){	    	
 		    		g.drawString(words[i].getWord(),words[i].getX()+borderWidth,words[i].getY());	
 					int txtWidth = g.getFontMetrics().stringWidth(words[i].getWord());	// width of falling words
-						//g.drawRect(words[i].getX() + borderWidth, words[i].getY() - borderWidth,txtWidth,26 );
 					
-						g.setColor(Color.green);
-						g.drawString(hWord.getWord(),hWord.getX(), hWord.getY());
+					g.setColor(Color.green);
+					g.drawString(hWord.getWord(),hWord.getX(), hWord.getY());
 						
-				  		int textWidth = g.getFontMetrics().stringWidth(hWord.getWord());	//to GET WIDTH of hungry words
-						//g.drawRect(hWord.getX(), hWord.getY() - borderWidth,textWidth,36 );
-						rH = new Rectangle(hWord.getX(), hWord.getY() - borderWidth,textWidth,36);
-						rF = new Rectangle(words[i].getX()+borderWidth,words[i].getY() - borderWidth,txtWidth,36);
-						if(rH.intersects(rF)){
-						 	//hWord.resetWord();
-						 	words[i].resetWord();
-							TypingTutorApp.score.missedWord();
-						}
-						g.setColor(Color.black);
-						//pos++;
-					//}
+				  	int textWidth = g.getFontMetrics().stringWidth(hWord.getWord());	//to GET WIDTH of hungry words
+					rH = new Rectangle(hWord.getX(), hWord.getY() - borderWidth,textWidth,36);
+					rF = new Rectangle(words[i].getX()+borderWidth,words[i].getY() - borderWidth,txtWidth,36);
+					
+					// if the invisible rectangles of dimensions of the words intersect, the falling words dissapears
+					if(rH.intersects(rF)){
+					 	words[i].resetWord();
+						TypingTutorApp.score.missedWord();
+					}
+					g.setColor(Color.black);
 		    	}
 		    	g.setColor(Color.lightGray); //change colour of pen
 				
@@ -89,11 +84,6 @@ public class GamePanel extends JPanel implements Runnable {
 		   }
 		   }
 		}
-		// public boolean detectCollision(Rectangle h, Rectangle f){
-		// 	// if (){
-		// 	// 	return true;
-		// 	// }
-		// }
 		
 		public int getValidXpos() {
 			int width = getWidth()-borderWidth*4;
@@ -103,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// My added method
 		public int getValidYPos(){
 			int height = getHeight() - borderWidth*4;
-			int y = (int)(Math.random() * height);
+			int y = height/2;	// middle position
 
 			//making sure y never below 200, make game fair for the user/player
 			if (y> 150 && y < 200){y += 60;}
@@ -111,7 +101,6 @@ public class GamePanel extends JPanel implements Runnable {
 			else if (y<=100){y += 200;}
 			return y;
 		}
-		public void mySetScore(Score sharedScore){score = sharedScore;}
 		
 		public void run() {
 			while (true) {
@@ -124,9 +113,5 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 
-	}
-	// class Rectangle{
-
-	// }
-
+}
 

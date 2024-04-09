@@ -1,7 +1,3 @@
-//import java.awt.Color;
-
-//import javax.swing.JLabel;
-
 public class HungryWord{
     
     private String word; // the word
@@ -23,7 +19,6 @@ public class HungryWord{
         maxX = 300;
         slided = false;
         slidingSpeed = (int) (Math.random()*(maxWait-minWait) + minWait);
-        //slidingSpeed = 80;
     }
 
     HungryWord(String text){
@@ -59,10 +54,6 @@ public class HungryWord{
     public synchronized  void setWord(String text) {this.word=text;}
 
 	public synchronized  String getWord() {
-        //String myWord = word;
-        /*JLabel myWord =new JLabel(word);
-        myWord.setForeground(Color.green);
-        return word;*/
         return word;
     }
 	
@@ -100,21 +91,4 @@ public class HungryWord{
     }
 
     public synchronized boolean slided() {return slided;}
-
-    public synchronized int getLength(){
-		int len = word.length();
-		return len;
-	}
-
-    /*public void run() {
-        // TODO Auto-generated method stub
-        System.out.println(wdict.getNewWord());
-        
-    }*/
-
-    /*public static void main(String[] args) {
-        HungryWordMover thread = new HungryWordMover();
-        thread.run();
-    } */
-    
 }

@@ -110,5 +110,4 @@ public class FallingWord {
 	public synchronized  boolean dropped() {
 		return dropped;
 	}
-
 }

@@ -1,0 +1,17 @@
+
+*** These modified files were found in JOE when it aborted on Sun Aug 21 02:35:25 2022
+*** JOE was aborted because the terminal closed
+
+*** File 'README.md'
+
+
+*** File '(Unnamed)'
+HelloWorld.java
+HElloWorld.java
+README.md
+
+*** File '* Startup Log *'
+Processing '/etc/joe/joerc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/joerc
